@@ -1,0 +1,28 @@
+.input {
+  display: block;
+  box-sizing: border-box;
+  width: 50%;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.label {
+  text-align: left;
+  display: block;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+}
+.icon {
+  position: absolute;
+  top: 38%;
+  right: 16%;
+}
+.icon:hover {
+  color: #00fcb6;
+  cursor: pointer;
+}
