@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "../../component/Layout";
 
-const User = () => {
-  const [user, setUser] = useState();
+const User = ({ data }) => {
+  const [user, setUser] = useState(data);
   const router = useRouter();
 
-  useEffect(async () => {
-    await fetch(`https://jsonplaceholder.typicode.com/users`)
-      .then((response) => response.json())
-      .then((data) => setUser(data));
-  });
+  // useEffect(() => {
+  //   const getData = () => {
+  //     fetch(`https://jsonplaceholder.typicode.com/users`)
+  //       .then((response) => response.json())
+  //       .then((data) => setUser(data));
+  //   };
 
-  const deleteUser = (id) => {
+  //   getData();
+  // }, []);
+
+  const deleteUser = useCallback((id) => {
     console.log(id);
-  };
+  }, []);
 
   return (
-    <Layout>
-      <div classNames="mr-3 text-right">
+    <>
+      <div className="mr-3 text-right">
         <button
           className="btn btn-primary"
           type="button"
@@ -31,9 +35,9 @@ const User = () => {
         </button>
       </div>
       <div className="my-3">
-        <table className="table table-striped border">
+        <table className="table table-striped">
           <thead>
-            <tr>
+            <tr className="table-primary">
               <th scope="col">id</th>
               <th scope="col">FirstName</th>
               <th scope="col">UserName</th>
@@ -74,8 +78,32 @@ const User = () => {
           </tbody>
         </table>
       </div>
-    </Layout>
+
+      <div className="mr-3 text-right">
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={() => {
+            router.push("/user/InfiniteScroll");
+          }}
+        >
+          InfiniteScroll
+        </button>
+      </div>
+    </>
   );
 };
+
+export async function getServerSideProps() {
+  console.log("server side rendering");
+  const req = await fetch(`https://jsonplaceholder.typicode.com/users`);
+  const data = await req.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
+}
 
 export default User;
